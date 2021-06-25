@@ -1,7 +1,9 @@
-"""An AWS Python Pulumi program"""
-
 import pulumi
+
 from pulumi_aws import s3
+
+"""An AWS Python Pulumi program"""
+"""This is a sample program to create s3 bucket"""
 
 # Create an AWS resource (S3 Bucket)
 bucket = s3.Bucket('my-bucket')
