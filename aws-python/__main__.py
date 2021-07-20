@@ -23,7 +23,11 @@ for file in os.listdir(content_dir):
     obj = s3.BucketObject(file,
                           bucket=web_bucket.id,
                           source=FileAsset(filepath),
-                          content_type=mime_type)
+                          content_type=mime_type,
+                          tags={
+                              'env': 'dev'
+                          }
+                          )
 
 
 def public_read_policy_for_bucket(bucket_name):
