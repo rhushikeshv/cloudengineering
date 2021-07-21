@@ -31,7 +31,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
       - uses: pulumi/actions@v3
         with:
-          command: preview
+          command: up
           stack-name: dev
           work-dir: ./aws-python
         env:
