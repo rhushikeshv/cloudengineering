@@ -12,11 +12,10 @@ jobs:
       - uses: actions/setup-node@v1 #this will install Node and npm on Ubuntu
         with:
           node-version: '12.x'
-      - name: Checkout code
-      - uses: actions/checkout@v2
       - run: npm install
       - run: npm install -g @angular/cli
       - run: pwd
+      - uses: actions/checkout@v2
       - run: ls /home/runner/work/pulumi
       - run: ls /home/runner/work
       - name: Build
