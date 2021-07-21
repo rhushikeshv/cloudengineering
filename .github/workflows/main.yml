@@ -9,6 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1 #this will install Node and npm on Ubuntu
+        with:
+          node-version: '12.x'
+      - run: npm install
+      - run: npm install -g @angular/cli 
+      - run: ng build --prod
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -22,10 +28,5 @@ jobs:
           work-dir: ./aws-python
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-      - uses: actions/setup-node@v1 #this will install Node and npm on Ubuntu
-        with:
-          node-version: '12.x'
-      - run: npm install
-      - run: npm install -g @angular/cli
-      - run: ng build --prod
+     
 
