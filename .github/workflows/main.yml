@@ -9,9 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout code
-      - uses: actions/checkout@v2
-      - name: Setup Node
       - uses: actions/setup-node@v1 #this will install Node and npm on Ubuntu
         with:
           node-version: '12.x'
