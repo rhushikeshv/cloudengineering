@@ -20,8 +20,9 @@ jobs:
         with:
           work-dir: ./aws-python/frontend/pulumi-app
       - name: npm install and npm run build
-        run:
-          npm run build
+      - run: npm install
+      - run: npm install -g @angular/cli
+      - run: npm build 
         working-directory: ./aws-python/frontend/pulumi-app
       - uses: pulumi/actions@v3
         with:
