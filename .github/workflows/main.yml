@@ -15,14 +15,11 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-region: ${{ secrets.AWS_REGION }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
-      - name: Node $
-        uses: actions/setup-node@v1
-        with:
-          work-dir: ./aws-python/frontend/pulumi-app
-      - name: npm install and npm run build
+      - name: Setup Node, Angular and Build Angular Application
+      - uses: actions/setup-node@v1 #this will install Node and npm on Ubuntu
       - run: npm install
       - run: npm install -g @angular/cli
-      - run: npm build 
+      - run: ng build
         working-directory: ./aws-python/frontend/pulumi-app
       - uses: pulumi/actions@v3
         with:
