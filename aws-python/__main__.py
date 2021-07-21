@@ -30,7 +30,7 @@ for file in os.listdir(content_dir):
                           )
 
 
-def public_read_policy_for_bucket(bucket_name):
+def public_read_policy_for_bucket(bucket_id):
     return json.dumps({
         "Version": "2012-10-17",
         "Statement": [{
@@ -40,17 +40,17 @@ def public_read_policy_for_bucket(bucket_name):
                 "s3:GetObject"
             ],
             "Resource": [
-                f"arn:aws:s3:::{bucket_name}/*",
+                f"arn:aws:s3:::{bucket_id}/*",
             ]
         }]
     })
 
 
-bucket_name = web_bucket.id
+bucket_id = web_bucket.id
 bucket_policy = s3.BucketPolicy("bucket-policy",
-                                bucket=bucket_name,
-                                policy=bucket_name.apply(public_read_policy_for_bucket))
+                                bucket=bucket_id,
+                                policy=bucket_id.apply(public_read_policy_for_bucket))
 
 # Export the name of the bucket
-export('bucket_name', web_bucket.id)
+export('bucket_id', web_bucket.id)
 export('website_url', web_bucket.website_endpoint)
