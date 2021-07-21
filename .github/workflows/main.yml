@@ -22,6 +22,7 @@ jobs:
       - name: npm install and npm run build
         run:
           npm run build
+        working-directory: ./aws-python/frontend/pulumi-app
       - uses: pulumi/actions@v3
         with:
           command: preview
