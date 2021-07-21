@@ -18,8 +18,8 @@ jobs:
       - run: npm install --save-dev @angular-devkit/build-angular
       - run: pwd
       - uses: actions/checkout@v2
-      - run: ls /home/runner/work/pulumi
-      - run: ls /home/runner/work
+      - name: Install Angular dependenices
+        run: npm install
       - name: Build
         run: ng build
         working-directory: ./aws-python/frontend/pulumi-app
