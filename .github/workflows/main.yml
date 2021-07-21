@@ -15,6 +15,13 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-region: ${{ secrets.AWS_REGION }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+      - name: Node $
+        uses: actions/setup-node@v1
+        with:
+          work-dir: ./aws-python/frontend/pulumi-app
+      - name: npm install and npm run build
+        run:
+          npm run build
       - uses: pulumi/actions@v3
         with:
           command: preview
