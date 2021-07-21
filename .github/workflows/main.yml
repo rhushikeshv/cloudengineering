@@ -15,7 +15,8 @@ jobs:
       - run: npm install
       - run: npm install -g @angular/cli
       - run: pwd
-      - run: ls /home/runner/work/pulumi/pulumi
+      - run: ls /home/runner/work/pulumi
+      - run: ls /home/runner/work
       - name: Build
         run: ng build
         working-directory: ./aws-python/frontend/pulumi-app
