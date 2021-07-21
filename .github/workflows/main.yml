@@ -14,6 +14,7 @@ jobs:
           node-version: '12.x'
       - run: npm install
       - run: npm install -g @angular/cli
+      - run: pwd
       - name: Build
         run: ng build
         working-directory: ./aws-python/frontend/pulumi-app
