@@ -14,6 +14,7 @@ jobs:
           node-version: '12.x'
       - run: npm install
       - run: npm install -g @angular/cli
+      - run: npm install --save-dev @angular-devkit/build-angular
       - run: pwd
       - uses: actions/checkout@v2
       - run: ls /home/runner/work/pulumi
