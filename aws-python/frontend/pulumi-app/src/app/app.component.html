@@ -1,18 +1,21 @@
 <!-- A grey horizontal navbar that becomes vertical on small screens -->
-<h1> Welcome Manoj</h1>
 <nav class="navbar navbar-expand-sm bg-light">
 
   <!-- Links -->
   <ul class="navbar-nav">
     <li class="nav-item">
-      <a class="nav-link" href="#">Manage Parts</a>
+      <a class="nav-link" routerLink="/part" routerLinkActive="active">Manage Parts</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Manage Drawings</a>
+      <a class="nav-link" routerLink="/drawing" routerLinkActive="active">Manage Drawings</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Manage Engg Change Request</a>
+      <a class="nav-link" routerLink="/ecr" routerLinkActive="active">Manage Engg Change Request</a>
     </li>
+
   </ul>
 
+
 </nav>
+
+   <router-outlet></router-outlet>
