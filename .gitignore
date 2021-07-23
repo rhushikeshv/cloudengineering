@@ -1,1 +1,14 @@
-aws-python/www/*
+aws-python/www/favicon.ico
+aws-python/www/main.js
+aws-python/www/polyfills.js
+aws-python/www/runtime.js
+aws-python/www/scripts.js
+aws-python/www/styles.css
+aws-python/www/vendor.js
+aws-python/www/index.html
+aws-python/www/main.js.map
+aws-python/www/polyfills.js.map
+aws-python/www/runtime.js.map
+aws-python/www/scripts.js.map
+aws-python/www/styles.css.map
+aws-python/www/vendor.js.map
