@@ -1,4 +1,4 @@
 *.pyc
 venv/
-www/*
+www/
 !www/.gitkeep
