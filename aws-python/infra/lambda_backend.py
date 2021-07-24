@@ -53,7 +53,7 @@ def create_lambda():
                                        runtime="python3.7",
                                        handler="hello.handler",
                                        code=pulumi.AssetArchive({
-                                           '.': pulumi.FileArchive('../backend')
+                                           '.': pulumi.FileArchive('backend')
                                        })
                                        )
 
