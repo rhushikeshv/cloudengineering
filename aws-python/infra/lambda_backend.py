@@ -2,13 +2,44 @@
 
 import pulumi
 import pulumi_aws as aws
-from pulumi_aws import iam
 import json
+from pulumi_aws import iam
 
 region = aws.config.region
 
 custom_stage_name = 'example'
 
+lambda_role = iam.Role('lambdaRole',
+                       assume_role_policy="""{
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Action": "sts:AssumeRole",
+                "Principal": {
+                    "Service": "lambda.amazonaws.com"
+                },
+                "Effect": "Allow",
+                "Sid": ""
+            }
+        ]
+    }"""
+                       )
+
+lambda_role_policy = iam.RolePolicy('lambdaRolePolicy',
+                                    role=lambda_role.id,
+                                    policy="""{
+        "Version": "2012-10-17",
+        "Statement": [{
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "arn:aws:logs:*:*:*"
+        }]
+    }"""
+                                    )
 
 def create_lambda():
     ##################
@@ -18,11 +49,11 @@ def create_lambda():
     # Create a Lambda function, using code from the `./backend` folder.
 
     lambda_func = aws.lambda_.Function("mylambda",
-                                       role=iam.lambda_role.arn,
+                                       role=lambda_role.arn,
                                        runtime="python3.7",
                                        handler="hello.handler",
                                        code=pulumi.AssetArchive({
-                                           '.': pulumi.FileArchive('./backend')
+                                           '.': pulumi.FileArchive('../backend')
                                        })
                                        )
 
