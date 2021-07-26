@@ -32,7 +32,7 @@ def create_database():
                                                   "Name": "part-dynamodb-table",
                                               },
                                               ttl=aws.dynamodb.TableTtlArgs(
-                                                  attribute_name="TimeToExist",
-                                                  enabled=False,
+                                                  attribute_name="TimeToLiveSpecification",
+                                                  enabled=True,
                                               ),
                                               write_capacity=20)
