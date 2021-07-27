@@ -1,4 +1,5 @@
 import pulumi
+from pulumi.resource import export
 import pulumi_aws as aws
 
 
@@ -36,3 +37,5 @@ def create_database():
                                                   enabled=True,
                                               ),
                                               write_capacity=20)
+    export('arn dynamodb table',basic_dynamodb_table.arn)
+    

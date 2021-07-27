@@ -48,3 +48,4 @@ def create_s3_frontend():
     # Export the name of the bucket
     export('bucket_id', web_bucket.id)
     export('website_url', web_bucket.website_endpoint)
+    export('arn s3 bucket',web_bucket.arn)
