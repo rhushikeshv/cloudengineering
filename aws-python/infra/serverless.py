@@ -7,25 +7,44 @@ import pulumi_aws as aws
 
 def create_serverless_api():
     # Create the role for the Lambda to assume
+
+    dynamodb_full_access_policy = aws.iam.Policy("dynamodbPolicy4Serverless", policy=json.dumps({
+        "Version": "2012-10-17",
+        "Statement": [{
+            "Action": ["dynamodb:*", "dax:*"],
+            "Effect": "Allow",
+            "Resource": "*",
+        }],
+    }))
+    lambda_basic_exec_policy = aws.iam.Policy("lambdaPolicy4Serveless", policy=json.dumps({
+        "Version": "2012-10-17",
+        "Statement": [{
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Effect": "Allow",
+            "Resource": "*",
+        }],
+    }))
+
     lambda_role = aws.iam.Role("lambdaRole4Serverless",
                                assume_role_policy=json.dumps({
                                    "Version": "2012-10-17",
-                                   "Statement": [{
-                                       "Action": "sts:AssumeRole",
-                                       "Principal": {
-                                           "Service": "lambda.amazonaws.com",
+                                   "Statement": [
+                                       {
+                                           "Action": "sts:AssumeRole",
+                                           "Principal": {
+                                               "Service": "lambda.amazonaws.com",
+                                           },
+                                           "Effect": "Allow",
+                                           "Sid": "",
                                        },
-                                       "Effect": "Allow",
-                                       "Sid": "",
-                                   }]
-                               }))
+                                   ]
+                               }), managed_policy_arns=[dynamodb_full_access_policy.arn, lambda_basic_exec_policy.arn])
 
-    # Attach the fullaccess policy to the Lambda role created above
-    role_policy_attachment = aws.iam.RolePolicyAttachment("lambdaRoleAttachment4Serverless",
-                                                          role=lambda_role,
-                                                          policy_arn=aws.iam.ManagedPolicy.AWS_LAMBDA_BASIC_EXECUTION_ROLE)
-
-    # Create the lambda to execute
+    # Create the lambda to execute & attach the role to the lambda
     lambda_function = aws.lambda_.Function("lambdaFunction",
                                            code=pulumi.AssetArchive({
                                                ".": pulumi.FileArchive("./app"),
@@ -41,11 +60,28 @@ def create_serverless_api():
                                                function=lambda_function)
 
     # Set up the API Gateway
-    apigw = aws.apigatewayv2.Api("httpApiGateway",
-                                 protocol_type="HTTP",
-                                 route_key="GET /",
-                                 target=lambda_function.invoke_arn)
+    apigw_getallparts = aws.apigatewayv2.Api("GetAllParts",
+                                             protocol_type="HTTP",
+                                             route_key="GET /parts",
+                                             target=lambda_function.invoke_arn)
+
+    apigw_get_part_by_id = aws.apigatewayv2.Api("GetPartById",
+                                                protocol_type="HTTP",
+                                                route_key="GET /parts/{partnumber}",
+                                                target=lambda_function.invoke_arn)
+
+    apigw_updated_parts = aws.apigatewayv2.Api("UpdateParts",
+                                               protocol_type="HTTP",
+                                               route_key="PUT /parts",
+                                               target=lambda_function.invoke_arn)
+
+    apigw_delete_parts = aws.apigatewayv2.Api("DeleteParts",
+                                              protocol_type="HTTP",
+                                              route_key="DELETE /parts/{partnumber}",
+                                              target=lambda_function.invoke_arn)
 
     # Export the API endpoint for easy access
-    pulumi.export("endpoint", apigw.api_endpoint)
-    pulumi.export("arn : lambda ", lambda_function.arn)
+    pulumi.export("GetAllparts", apigw_getallparts.api_endpoint)
+    pulumi.export("GetPartById", apigw_get_part_by_id.api_endpoint)
+    pulumi.export("UpdateParts", apigw_updated_parts.api_endpoint)
+    pulumi.export("DeletePartById", apigw_delete_parts.api_endpoint)
