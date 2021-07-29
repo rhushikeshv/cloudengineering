@@ -16,7 +16,7 @@ exports.handler = async (event, context) => {
   console.log('----the route key is ------------' + event.routeKey);
 
   
-  let partnumber = event.pathParameters.partnumber.toString();
+  
 
   try {
     switch (event.routeKey) {
@@ -25,7 +25,7 @@ exports.handler = async (event, context) => {
           .delete({
             TableName: tableName,
             Key: {
-              'Partnumber': partnumber
+              'Partnumber': event.pathParameters.partnumber
             }
           })
           .promise();
@@ -37,7 +37,7 @@ exports.handler = async (event, context) => {
           .get({
             TableName: tableName,
             Key: {
-              'Partnumber': partnumber
+              'Partnumber': event.pathParameters.partnumber
             }
           })
           .promise();
