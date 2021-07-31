@@ -1,8 +1,10 @@
 # Copyright 2016-2021, Pulumi Corporation. All rights reserved
 
+from typing import List
 import pulumi
 import json
 import pulumi_aws as aws
+from pulumi_aws.apigatewayv2 import ApiCorsConfigurationArgs
 
 
 def create_serverless_api():
@@ -60,25 +62,34 @@ def create_serverless_api():
                                                function=lambda_function)
 
     # Set up the API Gateway
+    corsconfig = ApiCorsConfigurationArgs(allow_origins="*")
+
+    
+
+    
     apigw_getallparts = aws.apigatewayv2.Api("GetAllParts",
                                              protocol_type="HTTP",
                                              route_key="GET /parts",
-                                             target=lambda_function.invoke_arn)
+                                             target=lambda_function.invoke_arn,
+                                             cors_configuration=corsconfig.allow_headers)
 
     apigw_get_part_by_id = aws.apigatewayv2.Api("GetPartById",
                                                 protocol_type="HTTP",
                                                 route_key="GET /parts/{partnumber}",
-                                                target=lambda_function.invoke_arn)
+                                                target=lambda_function.invoke_arn,
+                                                cors_configuration=corsconfig.allow_headers)
 
     apigw_updated_parts = aws.apigatewayv2.Api("UpdateParts",
                                                protocol_type="HTTP",
                                                route_key="PUT /parts",
-                                               target=lambda_function.invoke_arn)
+                                               target=lambda_function.invoke_arn,
+                                               cors_configuration=corsconfig.allow_headers)
 
     apigw_delete_parts = aws.apigatewayv2.Api("DeleteParts",
                                               protocol_type="HTTP",
                                               route_key="DELETE /parts/{partnumber}",
-                                              target=lambda_function.invoke_arn)
+                                              target=lambda_function.invoke_arn,
+                                              cors_configuration=corsconfig.allow_headers)
 
     # Export the API endpoint for easy access
     pulumi.export("GetAllparts", apigw_getallparts.api_endpoint)
