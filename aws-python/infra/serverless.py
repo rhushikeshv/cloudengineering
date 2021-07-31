@@ -62,7 +62,7 @@ def create_serverless_api():
                                                function=lambda_function)
 
     # Set up the API Gateway
-    corsconfig = ApiCorsConfigurationArgs(allow_origins="*",allow_headers="Access-Control-Allow-Origin")
+    corsconfig = ApiCorsConfigurationArgs(allow_origins=["*"],allow_headers=["Access-Control-Allow-Origin"])
 
     
 
@@ -71,25 +71,25 @@ def create_serverless_api():
                                              protocol_type="HTTP",
                                              route_key="GET /parts",
                                              target=lambda_function.invoke_arn,
-                                             cors_configuration=corsconfig.allow_headers)
+                                             cors_configuration=corsconfig)
 
     apigw_get_part_by_id = aws.apigatewayv2.Api("GetPartById",
                                                 protocol_type="HTTP",
                                                 route_key="GET /parts/{partnumber}",
                                                 target=lambda_function.invoke_arn,
-                                                cors_configuration=corsconfig.allow_headers)
+                                                cors_configuration=corsconfig)
 
     apigw_updated_parts = aws.apigatewayv2.Api("UpdateParts",
                                                protocol_type="HTTP",
                                                route_key="PUT /parts",
                                                target=lambda_function.invoke_arn,
-                                               cors_configuration=corsconfig.allow_headers)
+                                               cors_configuration=corsconfig)
 
     apigw_delete_parts = aws.apigatewayv2.Api("DeleteParts",
                                               protocol_type="HTTP",
                                               route_key="DELETE /parts/{partnumber}",
                                               target=lambda_function.invoke_arn,
-                                              cors_configuration=corsconfig.allow_headers)
+                                              cors_configuration=corsconfig)
 
     # Export the API endpoint for easy access
     pulumi.export("GetAllparts", apigw_getallparts.api_endpoint)
