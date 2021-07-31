@@ -62,7 +62,7 @@ def create_serverless_api():
                                                function=lambda_function)
 
     # Set up the API Gateway
-    corsconfig = ApiCorsConfigurationArgs(allow_origins="*")
+    corsconfig = ApiCorsConfigurationArgs(allow_origins="*",allow_headers="Access-Control-Allow-Origin")
 
     
 
