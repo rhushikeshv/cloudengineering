@@ -13,13 +13,14 @@ export class PartComponent implements OnInit {
     { make: 'Ford', model: 'Mondeo', price: 32000 },
     { make: 'Porsche', model: 'Boxter', price: 72000 }
   ];
-  columnDefs = [{ field: 'make' }, { field: 'model' }, { field: 'price' }];
+  columnDefs = [{ field: 'Partname' }, { field: 'Partnumber' }, { field: 'Quantity' }, {field: 'Lifecyclestate'}];
 
   constructor(private partService: PartService) {}
 
   ngOnInit(): void {
     this.partService.getParts().subscribe((data) => {
-      console.log(data);
+      console.log(data.Items);
+      this.rowData = data.Items;
     });
   }
 
