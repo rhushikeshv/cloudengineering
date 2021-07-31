@@ -10,14 +10,6 @@ exports.handler = async (event, context) => {
   const headers = {
     "Content-Type": "application/json"
   };
-  console.log("----inside the hander function------",event);
-
-
-  console.log('----the route key is ------------' + event.routeKey);
-
-  
-  
-
   try {
     switch (event.routeKey) {
       case "DELETE /parts/{partnumber}":
@@ -66,7 +58,6 @@ exports.handler = async (event, context) => {
   } finally {
     body = JSON.stringify(body);
   }
-
   return {
     statusCode,
     body,
