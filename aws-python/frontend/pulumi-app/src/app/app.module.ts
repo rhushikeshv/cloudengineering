@@ -8,6 +8,7 @@ import { PartComponent } from './part/part.component';
 import { DrawingComponent } from './drawing/drawing.component';
 import { EcrComponent } from './ecr/ecr.component';
 import { FormsModule } from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     FormsModule,
     AgGridModule.withComponents([])
   ],
