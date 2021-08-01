@@ -28,11 +28,9 @@ def createPermission4APIGateway(lambdaPermission,action,principal,lambdaFunction
                                   action=action,
                                   principal=principal,
                                   function=lambdaFunction)
-
-def create_serverless_api():
-    # Create the role for the Lambda to assume
-
-    dynamodb_full_access_policy = aws.iam.Policy("dynamodbPolicy4Serverless", policy=json.dumps({
+    
+def createDynamoDBPolicy():
+    return aws.iam.Policy("dynamodbPolicy4Serverless", policy=json.dumps({
         "Version": "2012-10-17",
         "Statement": [{
             "Action": ["dynamodb:*", "dax:*"],
@@ -40,7 +38,9 @@ def create_serverless_api():
             "Resource": "*",
         }],
     }))
-    lambda_basic_exec_policy = aws.iam.Policy("lambdaPolicy4Serveless", policy=json.dumps({
+
+def createLambdaPolicy():
+    return aws.iam.Policy("lambdaPolicy4Serveless", policy=json.dumps({
         "Version": "2012-10-17",
         "Statement": [{
             "Action": [
@@ -52,6 +52,13 @@ def create_serverless_api():
             "Resource": "*",
         }],
     }))
+
+def create_serverless_api():
+    # Create the role for the Lambda to assume
+
+    dynamodb_full_access_policy = createDynamoDBPolicy()
+    lambda_basic_exec_policy = createLambdaPolicy()
+    
 
     lambda_role = aws.iam.Role("lambdaRole4Serverless",
                                assume_role_policy=json.dumps({
@@ -69,7 +76,7 @@ def create_serverless_api():
                                }), managed_policy_arns=[dynamodb_full_access_policy.arn, lambda_basic_exec_policy.arn])
 
     
-    lambda_function = createLambdaFunction("drawingLambdaFunction",
+    drawingLambdaFunction      = createLambdaFunction("drawingLambdaFunction",
                                            lambda_role,
                                            "nodejs12.x",
                                            "./app",
@@ -79,12 +86,12 @@ def create_serverless_api():
     lambda_permission    = createPermission4APIGateway("drawingLambdaPermission",
                                                     "lambda:InvokeFunction",
                                                     "apigateway.amazonaws.com",
-                                                     lambda_function)
+                                                     drawingLambdaFunction)
 
-    apigw_getallparts    = createAPI("GetAllParts",lambda_function,"HTTP","GET /parts")
-    apigw_get_part_by_id = createAPI("GetPartById",lambda_function,"HTTP","GET /parts/{partnumber}")
-    apigw_updated_parts  = createAPI("UpdateParts",lambda_function,"HTTP","PUT /parts")
-    apigw_delete_parts   = createAPI("DeleteParts",lambda_function,"HTTP","DELETE /parts/{partnumber}")
+    apigw_getallparts    = createAPI("GetAllParts",drawingLambdaFunction,"HTTP","GET /parts")
+    apigw_get_part_by_id = createAPI("GetPartById",drawingLambdaFunction,"HTTP","GET /parts/{partnumber}")
+    apigw_updated_parts  = createAPI("UpdateParts",drawingLambdaFunction,"HTTP","PUT /parts")
+    apigw_delete_parts   = createAPI("DeleteParts",drawingLambdaFunction,"HTTP","DELETE /parts/{partnumber}")
     
 
     # Export the API endpoint for easy access
