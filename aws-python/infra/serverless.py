@@ -80,7 +80,7 @@ def create_serverless_api():
                                            lambda_role,
                                            "nodejs12.x",
                                            "./app",
-                                           "index.handler")
+                                           "part.handler")
     
     # Give API Gateway permissions to invoke the Lambda
     lambda_permission    = createPermission4APIGateway("drawingLambdaPermission",
