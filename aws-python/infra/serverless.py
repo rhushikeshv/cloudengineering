@@ -6,6 +6,28 @@ import json
 import pulumi_aws as aws
 from pulumi_aws.apigatewayv2 import ApiCorsConfigurationArgs
 
+def createAPI(funcname,lambdafunc,protocol,routekey):
+    # Set up the API Gateway
+    corsconfig = ApiCorsConfigurationArgs(allow_origins=["*"],allow_headers=["Access-Control-Allow-Origin"])
+    return aws.apigatewayv2.Api(funcname,protocol_type=protocol,route_key=routekey,
+                                target=lambdafunc.invoke_arn,cors_configuration=corsconfig)
+
+
+def createLambdaFunction(lambdaFunction,lambda_role,runtime,codePath,handlerfunction):
+    # Create the lambda to execute & attach the role to the lambda
+    return aws.lambda_.Function(lambdaFunction,
+                                code=pulumi.AssetArchive({
+                                               ".": pulumi.FileArchive(codePath)}),
+                                runtime=runtime,
+                                role=lambda_role.arn,
+                                handler=handlerfunction)
+
+def createPermission4APIGateway(lambdaPermission,action,principal,lambdaFunction):
+    # Give API Gateway permissions to invoke the Lambda
+    return aws.lambda_.Permission(lambdaPermission,
+                                  action=action,
+                                  principal=principal,
+                                  function=lambdaFunction)
 
 def create_serverless_api():
     # Create the role for the Lambda to assume
@@ -46,50 +68,24 @@ def create_serverless_api():
                                    ]
                                }), managed_policy_arns=[dynamodb_full_access_policy.arn, lambda_basic_exec_policy.arn])
 
-    # Create the lambda to execute & attach the role to the lambda
-    lambda_function = aws.lambda_.Function("lambdaFunction",
-                                           code=pulumi.AssetArchive({
-                                               ".": pulumi.FileArchive("./app"),
-                                           }),
-                                           runtime="nodejs12.x",
-                                           role=lambda_role.arn,
-                                           handler="index.handler")
-
+    
+    lambda_function = createLambdaFunction("drawingLambdaFunction",
+                                           lambda_role,
+                                           "nodejs12.x",
+                                           "./app",
+                                           "index.handler")
+    
     # Give API Gateway permissions to invoke the Lambda
-    lambda_permission = aws.lambda_.Permission("lambdaPermission",
-                                               action="lambda:InvokeFunction",
-                                               principal="apigateway.amazonaws.com",
-                                               function=lambda_function)
+    lambda_permission    = createPermission4APIGateway("drawingLambdaPermission",
+                                                    "lambda:InvokeFunction",
+                                                    "apigateway.amazonaws.com",
+                                                     lambda_function)
 
-    # Set up the API Gateway
-    corsconfig = ApiCorsConfigurationArgs(allow_origins=["*"],allow_headers=["Access-Control-Allow-Origin"])
-
+    apigw_getallparts    = createAPI("GetAllParts",lambda_function,"HTTP","GET /parts")
+    apigw_get_part_by_id = createAPI("GetPartById",lambda_function,"HTTP","GET /parts/{partnumber}")
+    apigw_updated_parts  = createAPI("UpdateParts",lambda_function,"HTTP","PUT /parts")
+    apigw_delete_parts   = createAPI("DeleteParts",lambda_function,"HTTP","DELETE /parts/{partnumber}")
     
-
-    
-    apigw_getallparts = aws.apigatewayv2.Api("GetAllParts",
-                                             protocol_type="HTTP",
-                                             route_key="GET /parts",
-                                             target=lambda_function.invoke_arn,
-                                             cors_configuration=corsconfig)
-
-    apigw_get_part_by_id = aws.apigatewayv2.Api("GetPartById",
-                                                protocol_type="HTTP",
-                                                route_key="GET /parts/{partnumber}",
-                                                target=lambda_function.invoke_arn,
-                                                cors_configuration=corsconfig)
-
-    apigw_updated_parts = aws.apigatewayv2.Api("UpdateParts",
-                                               protocol_type="HTTP",
-                                               route_key="PUT /parts",
-                                               target=lambda_function.invoke_arn,
-                                               cors_configuration=corsconfig)
-
-    apigw_delete_parts = aws.apigatewayv2.Api("DeleteParts",
-                                              protocol_type="HTTP",
-                                              route_key="DELETE /parts/{partnumber}",
-                                              target=lambda_function.invoke_arn,
-                                              cors_configuration=corsconfig)
 
     # Export the API endpoint for easy access
     pulumi.export("GetAllparts", apigw_getallparts.api_endpoint)
