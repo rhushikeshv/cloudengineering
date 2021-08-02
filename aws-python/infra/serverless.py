@@ -75,8 +75,9 @@ def createLambdaPolicy():
             "Resource": "*",
         }],
     }))
-    
-def createRole(dynamodb_full_access_policy,lambda_basic_exec_policy):
+
+
+def createRole(dynamodb_full_access_policy, lambda_basic_exec_policy):
     lambda_role = aws.iam.Role("lambdaRole4Serverless",
                                assume_role_policy=json.dumps({
                                    "Version": "2012-10-17",
@@ -98,23 +99,48 @@ def create_serverless_api():
     # Create the role for the Lambda to assume
 
     dynamodb_full_access_policy = createDynamoDBPolicy()
-    
+
     lambda_basic_exec_policy = createLambdaPolicy()
-    
-    lambda_role = createRole(dynamodb_full_access_policy,lambda_basic_exec_policy)
-  
+
+    lambda_role = createRole(
+        dynamodb_full_access_policy, lambda_basic_exec_policy)
+
+    partLambdaFunction = createLambdaAndAPIGateway("partLambdaFunction",
+                                                   lambda_role, "nodejs12.x",
+                                                   "./app", "part.handler",
+                                                   "partLambdaPermission")
+
+    apigw_getallparts = createAPI(
+        "GetAllParts", partLambdaFunction, "HTTP", "GET /parts")
+    apigw_get_part_by_id = createAPI(
+        "GetPartById", partLambdaFunction, "HTTP", "GET /parts/{partnumber}")
+    apigw_updated_parts = createAPI(
+        "UpdateParts", partLambdaFunction, "HTTP", "PUT /parts")
+    apigw_delete_parts = createAPI(
+        "DeleteParts", partLambdaFunction, "HTTP", "DELETE /parts/{partnumber}")
+
     drawingLambdaFunction = createLambdaAndAPIGateway("drawingLambdaFunction",
                                                       lambda_role, "nodejs12.x",
-                                                      "./app", "part.handler",
+                                                      "./app", "drawing.handler",
                                                       "drawingLambdaPermission")
 
-    apigw_getallparts    = createAPI("GetAllParts", drawingLambdaFunction, "HTTP", "GET /parts")
-    apigw_get_part_by_id = createAPI("GetPartById", drawingLambdaFunction, "HTTP", "GET /parts/{partnumber}")
-    apigw_updated_parts  = createAPI("UpdateParts", drawingLambdaFunction, "HTTP", "PUT /parts")
-    apigw_delete_parts   = createAPI("DeleteParts", drawingLambdaFunction, "HTTP", "DELETE /parts/{partnumber}")
+    apigw_getalldwgs = createAPI(
+        "GetAllDrawings", drawingLambdaFunction, "HTTP", "GET /drawings")
+    apigw_get_dwg_by_id = createAPI(
+        "GetDrawingById", drawingLambdaFunction, "HTTP", "GET /drawings/{drawingtitle}")
+    apigw_updated_dwgs = createAPI(
+        "UpdateDrawings", drawingLambdaFunction, "HTTP", "PUT /drawings")
+    apigw_delete_dwgs = createAPI(
+        "DeleteDrawings", drawingLambdaFunction, "HTTP", "DELETE /drawings/{drawingtitle}")
 
     # Export the API endpoint for easy access
     pulumi.export("GetAllparts", apigw_getallparts.api_endpoint)
     pulumi.export("GetPartById", apigw_get_part_by_id.api_endpoint)
     pulumi.export("UpdateParts", apigw_updated_parts.api_endpoint)
     pulumi.export("DeletePartById", apigw_delete_parts.api_endpoint)
+
+    # Export the API endpoint for easy access
+    pulumi.export("GetAllDrawings", apigw_getalldwgs.api_endpoint)
+    pulumi.export("GetDrawingById", apigw_get_dwg_by_id.api_endpoint)
+    pulumi.export("UpdateDrawings", apigw_updated_dwgs.api_endpoint)
+    pulumi.export("DeleteAllDrawings", apigw_delete_dwgs.api_endpoint)
