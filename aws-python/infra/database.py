@@ -47,3 +47,25 @@ def create_dwg_table():
                                          ),
                                          write_capacity=20)
     export('arn drawing table', basic_dwg_table.arn)
+    
+def create_ecr_table():
+    basic_ecr_table = aws.dynamodb.Table("CLOUD_PLM_ECR",
+                                         attributes=[
+                                             aws.dynamodb.TableAttributeArgs(
+                                                 name="Enggchange",
+                                                 type="S",
+                                             )
+
+                                         ],
+                                         hash_key="Enggchange",
+                                         read_capacity=20,
+                                         tags={
+                                                  "Environment": "dev",
+                                                  "Name": "dwg-dynamodb-table",
+                                         },
+                                         ttl=aws.dynamodb.TableTtlArgs(
+                                             attribute_name="TimeToLiveSpecification",
+                                             enabled=True,
+                                         ),
+                                         write_capacity=20)
+    export('arn ecr table', basic_ecr_table.arn)

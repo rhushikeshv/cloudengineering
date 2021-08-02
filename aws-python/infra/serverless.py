@@ -133,6 +133,20 @@ def create_serverless_api():
     apigw_delete_dwgs = createAPI(
         "DeleteDrawings", drawingLambdaFunction, "HTTP", "DELETE /drawings/{drawingtitle}")
 
+    ecrLambdaFunction = createLambdaAndAPIGateway("ecrLambdaFunction",
+                                                  lambda_role, "nodejs12.x",
+                                                  "./app", "ecr.handler",
+                                                  "ecrLambdaPermission")
+
+    apigw_getallecrs = createAPI(
+        "GetAllEcrs", ecrLambdaFunction, "HTTP", "GET /ecrs")
+    apigw_get_ecr_by_id = createAPI(
+        "GetEcrById", ecrLambdaFunction, "HTTP", "GET /ecrs/{enggchange}")
+    apigw_updated_ecrs = createAPI(
+        "UpdateEcrs", ecrLambdaFunction, "HTTP", "PUT /ecrs")
+    apigw_delete_ecrs = createAPI(
+        "DeleteEcrs", ecrLambdaFunction, "HTTP", "DELETE /ecrs/{enggchange}")
+
     # Export the API endpoint for easy access
     pulumi.export("GetAllparts", apigw_getallparts.api_endpoint)
     pulumi.export("GetPartById", apigw_get_part_by_id.api_endpoint)
@@ -144,3 +158,9 @@ def create_serverless_api():
     pulumi.export("GetDrawingById", apigw_get_dwg_by_id.api_endpoint)
     pulumi.export("UpdateDrawings", apigw_updated_dwgs.api_endpoint)
     pulumi.export("DeleteAllDrawings", apigw_delete_dwgs.api_endpoint)
+
+    # Export the API endpoint for easy access
+    pulumi.export("GetAllEcrs", apigw_getallecrs.api_endpoint)
+    pulumi.export("GetEcrsById", apigw_get_ecr_by_id.api_endpoint)
+    pulumi.export("UpdateEcrs", apigw_updated_ecrs.api_endpoint)
+    pulumi.export("DeleteAllEcrs", apigw_delete_ecrs.api_endpoint)
