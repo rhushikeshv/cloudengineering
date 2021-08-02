@@ -10,6 +10,6 @@ export class PartService {
   constructor(private http: HttpClient) { }
 
   getParts(): Observable<any>{
-    return this.http.get('https://5f2ghlwzz2.execute-api.us-east-1.amazonaws.com');
+    return this.http.get('https://5f2ghlwzz2.execute-api.us-east-1.amazonaws.com/parts');
   }
 }
