@@ -9,9 +9,7 @@ import {PartService} from './part.service';
 export class PartComponent implements OnInit {
 
   rowData = [
-    { make: 'Toyota', model: 'Celica', price: 35000 },
-    { make: 'Ford', model: 'Mondeo', price: 32000 },
-    { make: 'Porsche', model: 'Boxter', price: 72000 }
+   
   ];
   columnDefs = [{ field: 'Partname' }, { field: 'Partnumber' }, { field: 'Quantity' }, {field: 'Lifecyclestate'}];
 
