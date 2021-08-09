@@ -544,3 +544,4 @@ aws-python/app/node_modules/validate-npm-package-license/LICENSE
 aws-python/app/node_modules/validate-npm-package-license/package.json
 aws-python/app/node_modules/validate-npm-package-license/README.md
 aws-python/app/package-lock.json
+/venv/
