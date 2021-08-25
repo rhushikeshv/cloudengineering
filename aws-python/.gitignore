@@ -2,3 +2,4 @@
 venv/
 www/
 !www/favicon.ico
+/app/node_modules/
