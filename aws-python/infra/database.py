@@ -13,7 +13,7 @@ def create_part_table():
 
                                           ],
                                           hash_key="Partnumber",
-                                          read_capacity=20,
+                                          read_capacity=3,
                                           tags={
                                               "Environment": "dev",
                                               "Name": "part-dynamodb-table",
@@ -22,7 +22,7 @@ def create_part_table():
                                               attribute_name="TimeToLiveSpecification",
                                               enabled=True,
                                           ),
-                                          write_capacity=20)
+                                          write_capacity=3)
     export('arn part table ', basic_part_table.arn)
 
 
@@ -36,7 +36,7 @@ def create_dwg_table():
 
                                          ],
                                          hash_key="Drawingtitle",
-                                         read_capacity=20,
+                                         read_capacity=3,
                                          tags={
                                                   "Environment": "dev",
                                                   "Name": "dwg-dynamodb-table",
@@ -45,7 +45,7 @@ def create_dwg_table():
                                              attribute_name="TimeToLiveSpecification",
                                              enabled=True,
                                          ),
-                                         write_capacity=20)
+                                         write_capacity=3)
     export('arn drawing table', basic_dwg_table.arn)
     
 def create_ecr_table():
@@ -58,7 +58,7 @@ def create_ecr_table():
 
                                          ],
                                          hash_key="Enggchange",
-                                         read_capacity=20,
+                                         read_capacity=3,
                                          tags={
                                                   "Environment": "dev",
                                                   "Name": "dwg-dynamodb-table",
@@ -67,5 +67,5 @@ def create_ecr_table():
                                              attribute_name="TimeToLiveSpecification",
                                              enabled=True,
                                          ),
-                                         write_capacity=20)
+                                         write_capacity=3)
     export('arn ecr table', basic_ecr_table.arn)
