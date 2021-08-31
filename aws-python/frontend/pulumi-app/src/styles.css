@@ -1,4 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~bootstrap/dist/css/bootstrap.css";
-@import "ag-grid-community/dist/styles/ag-grid.css";
-@import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+
+
+
+ #heading {
+            background-color: #444 !important;
+            color: #fff;
+            padding: 10px 10px;
+
+            margin-bottom: 10px;
+          }
+
+#TopNav { background-color: #eee !important;color: #fff;}
+#TopNav ul li a{ color: #444 !important;}
+#TopNav ul li a:hover,
+#TopNav ul li a:focus,
+#TopNav ul li a:active { color: #444 !important;}
+
+.tablewrapp{width:100%;float: left;padding:5px 20px;}

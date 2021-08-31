@@ -17,6 +17,7 @@
       <excludeFolder url="file://$MODULE_DIR$/aws-python/frontend/pulumi-app/dist" />
       <excludeFolder url="file://$MODULE_DIR$/aws-python/frontend/pulumi-app/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/aws-python/venv" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.9 (pulumi)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
