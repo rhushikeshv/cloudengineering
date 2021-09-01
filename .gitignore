@@ -545,3 +545,4 @@ aws-python/app/node_modules/validate-npm-package-license/package.json
 aws-python/app/node_modules/validate-npm-package-license/README.md
 aws-python/app/package-lock.json
 /venv/
+/aws-python/frontend/pulumi-app/package-lock.json

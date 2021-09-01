@@ -3,3 +3,4 @@ venv/
 www/
 !www/favicon.ico
 /app/node_modules/
+./frontend/pulumi-app/package-lock.json
