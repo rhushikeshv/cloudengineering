@@ -9,6 +9,6 @@ export class EcrService {
   constructor(private http: HttpClient) { }
 
   getEcrs():Observable<any>{
-    return this.http.get('https://21qdsmw9b1.execute-api.us-east-1.amazonaws.com/ecrs')
+    return this.http.get('https://in4shvaty4.execute-api.us-east-1.amazonaws.com')
   }
 }

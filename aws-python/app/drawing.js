@@ -2,7 +2,7 @@ const AWS = require("aws-sdk");
 
 const dynamo = new AWS.DynamoDB.DocumentClient();
 
-const tableName ="CLOUD_PLM_DRAWING-3f2280c";
+const tableName ="CLOUD_PLM_DRAWING-0381a1d";
 
 exports.handler = async (event, context) => {
   let body;
