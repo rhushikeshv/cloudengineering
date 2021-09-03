@@ -1,4 +1,4 @@
-# Copyright 2016-2021, Pulumi Corporation. All rights reserved
+
 
 from typing import List
 import pulumi
@@ -10,7 +10,8 @@ from pulumi_aws.apigatewayv2 import ApiCorsConfigurationArgs
 def createAPI(funcname, lambdafunc, protocol, routekey):
     # Set up the API Gateway
     corsconfig = ApiCorsConfigurationArgs(
-        allow_origins=["*"], allow_headers=["Access-Control-Allow-Origin"])
+        allow_origins=["*","http://*","https://*"],
+        allow_headers=["Access-Control-Allow-Origin"])
     return aws.apigatewayv2.Api(funcname, protocol_type=protocol, route_key=routekey,
                                 target=lambdafunc.invoke_arn, cors_configuration=corsconfig)
 

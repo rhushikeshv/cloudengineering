@@ -3,7 +3,10 @@
     style="width:100% !important; height: 400px;padding-top:25px;margin: 25px 0px;"
     class="ag-theme-alpine"
     [rowData]="rowData"
-    [columnDefs]="columnDefs">
+    [defaultColDef]="defaultColDef"
+    [columnDefs]="columnDefs"
+    (gridReady)="onGridReady($event)"
+  >
   </ag-grid-angular>
 </div>
 

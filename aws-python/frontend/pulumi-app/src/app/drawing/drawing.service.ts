@@ -10,6 +10,6 @@ export class DrawingService {
   constructor(private http: HttpClient) { }
 
   getDrawings():Observable<any>{
-    return this.http.get('https://tr17b1bcib.execute-api.us-east-1.amazonaws.com')
+    return this.http.get('https://g6oqupfyuj.execute-api.us-east-1.amazonaws.com/drawings')
   }
 }

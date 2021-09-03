@@ -1,7 +1,11 @@
 <div id="ecrGrid" class="ag-theme-alpine">
 <ag-grid-angular
     style="width:100% !important; height: 400px;padding-top:25px;margin: 25px 0px;"
+
     [rowData]="rowData"
-    [columnDefs]="columnDefs">
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [gridOptions]="gridOptions"
+>
 </ag-grid-angular>
 </div>
