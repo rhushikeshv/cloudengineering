@@ -31,22 +31,22 @@ awscurl --service execute-api -X POST -d "hello" https://8q3minevj2.execute-api.
 # Contribution 5 (Rhushikesh)
 ![alt text](./pulumi_ecr_table.jpg)
 
-# Contribution 6 (Rhushikesh)
+# Contribution 1 (Manoj)
 ![alt text](./pulumi_manage_dwg.jpg)
 
-# Contribution 7 (Manoj)
+# Contribution 2 (Manoj)
 ![alt text](./pulumi_manage_ecr.jpg)
 
-# Contribution 8 (Manoj)
+# Contribution 3 (Manoj)
 ![alt text](./pulumi_manage_parts.jpg)
 
-# Contribution 9 (Manoj)
+# Contribution 4 (Manoj)
 ![alt text](./pulumi_part_lambda.jpg)
 
-# Contribution 10 (Manoj)
+# Contribution 5 (Manoj)
 ![alt text](./pulumi_part_table.jpg)
 
-# Contribution 11 (Manoj)
+# Contribution 6 (Rhushikesh)
 ![alt text](./pulumi_resources.jpg)
 
 
