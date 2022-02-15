@@ -16,3 +16,5 @@ awscurl --service execute-api -X POST -d "hello" https://8q3minevj2.execute-api.
 
 
 ````
+# Contribution 1 (Rhushikesh)
+![alt text](./pulumi_drawing_table.jpg)
