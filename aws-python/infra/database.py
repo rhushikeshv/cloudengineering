@@ -14,7 +14,7 @@ def create_part_table():
                                           ],
                                           hash_key="Partnumber",
                                           billing_mode="PAY_PER_REQUEST",
-                                          read_capacity=5,
+
                                           tags={
                                               "Environment": "dev",
                                               "Name": "part-dynamodb-table",
@@ -23,7 +23,7 @@ def create_part_table():
                                               attribute_name="TimeToLiveSpecification",
                                               enabled=True,
                                           ),
-                                          write_capacity=5)
+                                          )
     export('arn part table ', basic_part_table.arn)
 
 
@@ -38,7 +38,7 @@ def create_dwg_table():
                                          ],
                                          hash_key="Drawingtitle",
                                          billing_mode="PAY_PER_REQUEST",
-                                         read_capacity=5,
+
                                          tags={
                                                   "Environment": "dev",
                                                   "Name": "dwg-dynamodb-table",
@@ -47,7 +47,7 @@ def create_dwg_table():
                                              attribute_name="TimeToLiveSpecification",
                                              enabled=True,
                                          ),
-                                         write_capacity=5)
+                                         )
     export('arn drawing table', basic_dwg_table.arn)
     
 def create_ecr_table():
