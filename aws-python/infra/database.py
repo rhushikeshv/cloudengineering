@@ -61,7 +61,7 @@ def create_ecr_table():
                                          ],
                                          hash_key="Enggchange",
                                          billing_mode="PAY_PER_REQUEST",
-                                         read_capacity=5,
+
                                          tags={
                                                   "Environment": "dev",
                                                   "Name": "dwg-dynamodb-table",
@@ -70,5 +70,5 @@ def create_ecr_table():
                                              attribute_name="TimeToLiveSpecification",
                                              enabled=True,
                                          ),
-                                         write_capacity=5)
+                                         )
     export('arn ecr table', basic_ecr_table.arn)
